@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>EcoAgro Monitor — Plataforma Inteligente para Agricultura Sustentável</title>
+
+  <meta
+    name="description"
+    content="Monitoramento em tempo real de sensores, irrigação inteligente, IA e índice de sustentabilidade."
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f5f0;
+      color: #1f2937;
+      overflow-x: hidden;
+    }
+
+    /* Fundo */
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    .background img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 70px;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #15803d;
+    }
+
+    .status {
+      font-size: 12px;
+      font-weight: bold;
+      color: #16a34a;
+    }
+
+    /* Layout */
+    main {
+      padding: 100px 30px 80px;
+      max-width: 1500px;
+      margin: auto;
+    }
+
+    /* KPIs */
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card p {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .card h2 {
+      font-size: 35px;
+      font-weight: bold;
+    }
+
+    .card span {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* Grid principal */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+
+    /* Mapa */
+    .map {
+      position: relative;
+      height: 600px;
+      border-radius: 25px;
+      overflow: hidden;
+      border: 2px solid #ddd;
+    }
+
+    .map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Sensores */
+    .sensor {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 3px solid white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .sensor.ok {
+      background: #16a34a;
+    }
+
+    .sensor.alert {
+      background: #dc2626;
+      animation: pulse 1s infinite;
+    }
+
+    .sensor:hover {
+      transform: scale(1.3);
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      width: 140px;
+      display: none;
+      z-index: 20;
+    }
+
+    .tooltip strong {
+      font-size: 18px;
+    }
+
+    /* Irrigação */
+    .irrigation {
+      background: #15803d;
+      color: white;
+      border-radius: 25px;
+      padding: 25px;
+    }
+
+    .irrigation h3 {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .irrigation p {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .graph {
+      height: 140px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .graph svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+      background: rgba(255,255,255,0.9);
+      border-top: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+      font-size: 11px;
+      color: #555;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @media(max-width: 900px){
+      .dashboard{
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Fundo -->
+  <div class="background">
+    <img src="farm-satellite.jpg" alt="Fazenda">
+  </div>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      ECOAGRO MONITOR
+    </div>
+
+    <div class="status">
+      ● OPERACIONAL
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- KPIs -->
+    <section class="kpis">
+
+      <div class="card">
+        <p>Índice de Sustentabilidade</p>
+        <h2>94.2</h2>
+        <span>+2.4%</span>
+      </div>
+
+      <div class="card">
+        <p>H₂O Economizada</p>
+        <h2>128k</h2>
+        <span>Litros/Mês</span>
+      </div>
+
+      <div class="card">
+        <p>Sequestro de CO₂</p>
+        <h2>12.4</h2>
+        <span>Toneladas</span>
+      </div>
+
+      <div class="card">
+        <p>Produtividade Prevista</p>
+        <h2>88</h2>
+        <span>Sacas/Ha</span>
+      </div>
+
+    </section>
+
+    <!-- Dashboard -->
+    <section class="dashboard">
+
+      <!-- MAPA -->
+      <div class="map">
+
+        <img src="farm-satellite.jpg" alt="Mapa da Fazenda">
+
+        <!-- Sensores -->
+        <div class="sensor alert"
+             style="top:28%; left:22%;"
+             onclick="showTooltip('tooltip1')"></div>
+
+        <div class="sensor ok"
+             style="top:44%; left:52%;"
+             onclick="showTooltip('tooltip2')"></div>
+
+        <div class="sensor ok"
+             style="top:62%; left:34%;"
+             onclick="showTooltip('tooltip3')"></div>
+
+        <!-- Tooltips -->
+        <div class="tooltip" id="tooltip1" style="top:30%; left:24%;">
+          <small>Sensor S-04</small><br>
+          <strong>12%</strong><br>
+          Umidade
+        </div>
+
+        <div class="tooltip" id="tooltip2" style="top:46%; left:54%;">
+          <small>Sensor S-22</small><br>
+          <strong>24.5°C</strong><br>
+          Temperatura
+        </div>
+
+        <div class="tooltip" id="tooltip3" style="top:64%; left:36%;">
+          <small>Sensor S-11</small><br>
+          <strong>6.4</strong><br>
+          pH do Solo
+        </div>
+
+      </div>
+
+      <!-- Irrigação -->
+      <aside class="irrigation">
+
+        <h3>Irrigação Inteligente</h3>
+
+        <p>
+          Ativo: <strong>S-04</strong>
+        </p>
+
+        <div class="graph">
+
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+
+            <path
+              d="M0,20 L10,25 L20,22 L30,35 L40,30 L50,45 L60,55 L70,65 L80,60 L90,75 L100,85"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+            />
+
+            <path
+              d="M0,20 L10,25 L20,22 L30,35 L40,30 L50,45 L60,55 L70,65 L80,60 L90,75 L100,85 L100,100 L0,100 Z"
+              fill="rgba(255,255,255,0.2)"
+            />
+
+          </svg>
+
+        </div>
+
+      </aside>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <span>COORD: -15.7942, -55.4915 · FAZENDA SANTA FÉ · MT</span>
+    <span id="clock"></span>
+  </footer>
+
+  <script>
+
+    // Relógio
+    function updateClock() {
+      const now = new Date();
+
+      const h = String(now.getHours()).padStart(2, "0");
+      const m = String(now.getMinutes()).padStart(2, "0");
+      const s = String(now.getSeconds()).padStart(2, "0");
+
+      document.getElementById("clock").innerText =
+        `${h}:${m}:${s} · V1.4.2-PRO`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Tooltips
+    function showTooltip(id) {
+
+      document.querySelectorAll(".tooltip").forEach(t => {
+        t.style.display = "none";
+      });
+
+      const tooltip = document.getElementById(id);
+
+      if (tooltip.style.display === "block") {
+        tooltip.style.display = "none";
+      } else {
+        tooltip.style.display = "block";
+      }
+    }
+
+  </script>
+
+</body>
+</html>
